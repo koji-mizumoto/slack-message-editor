@@ -3,43 +3,10 @@ import os
 import streamlit as st
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-import sys
-
-# アプリケーションIDを取得（デプロイ時の引数として使用）
-app_id = sys.argv[1] if len(sys.argv) > 1 else "default"
-
-# アプリケーションIDに応じてトークンを取得
-def get_slack_token():
-    token_key = f"SLACK_BOT_TOKEN_{app_id}"
-    return st.secrets.get(token_key)
-
-# Slackクライアントの初期化とワークスペース名の取得
-def get_slack_client_and_workspace():
-    bot_token = get_slack_token()
-    if not bot_token:
-        st.error("SLACK_BOT_TOKENが設定されていません。")
-        st.stop()
-    client = WebClient(token=bot_token)
-    try:
-        # ワークスペース情報を取得
-        workspace_info = client.team_info()
-        workspace_name = workspace_info["team"]["name"]
-    except SlackApiError:
-        workspace_name = "Slack"
-    return client, workspace_name
-
-# クライアントとワークスペース名を取得
-slack_client, workspace_name = get_slack_client_and_workspace()
 
 # ページ設定
-st.set_page_config(
-    page_title=f"{workspace_name} - Slackメッセージ編集ツール",
-    page_icon="💬"
-)
-
-# タイトル表示
-st.title(f"{workspace_name}")
-st.header("Slackボットメッセージ編集ツール")
+st.set_page_config(page_title="Slackメッセージ編集ツール", page_icon="💬")
+st.title("Slackボットメッセージ編集ツール")
 
 # SlackApiErrorのデバッグ情報を詳細に表示する関数（先に定義）
 def display_error_details(error):
@@ -51,7 +18,7 @@ def display_error_details(error):
 # Streamlitのシークレット機能を使用
 # @st.cache_resource
 def get_slack_client():
-    bot_token = get_slack_token()
+    bot_token = st.secrets.get("SLACK_BOT_TOKEN", os.environ.get("SLACK_BOT_TOKEN"))
     if not bot_token:
         st.error("SLACK_BOT_TOKENが設定されていません。")
         st.stop()
