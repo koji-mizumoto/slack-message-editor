@@ -5,8 +5,8 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
 # ページ設定
-st.set_page_config(page_title="延岡学園 - Slackメッセージ編集ツール", page_icon="💬")
-st.markdown("<h2 style='margin-bottom:0px;'>延岡学園 Slackボットメッセージ編集ツール</h2>", unsafe_allow_html=True)
+st.set_page_config(page_title="延学 - Slackメッセージ編集ツール", page_icon="💬")
+st.markdown("<h2 style='margin-bottom:0px;'>延学 Slackボットメッセージ編集ツール</h2>", unsafe_allow_html=True)
 # st.title("KCP Slackボットメッセージ編集ツール")
 
 # SlackApiErrorのデバッグ情報を詳細に表示する関数（先に定義）
